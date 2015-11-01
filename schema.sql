@@ -11,14 +11,14 @@ USE studio_list;
 -- Table structure for table `customers`
 --
 
-  CREATE TABLE table_name(
+  CREATE TABLE songs(
     `songName` varchar(50) NOT NULL,
      `artist` varchar(50) NOT NULL,
      `link` varchar(300) NOT NULL,
      PRIMARY KEY (`songName`),
      KEY `songName` (`songName`)
    )
-   DEFAULT CHARACTER SET utf8   
+   DEFAULT CHARACTER SET utf8
    COLLATE utf8_general_ci;
 
 --
