@@ -10,7 +10,7 @@ app.filter('startFrom', function() {
     }
 });
 app.controller('customersCrtl', function ($scope, $http, $timeout) {
-    $http.get('ajax/getCustomers.php').success(function(data){
+    $http.get('ajax/getSongs.php').success(function(data){
         $scope.list = data;
         $scope.currentPage = 1; //current page
         $scope.entryLimit = 100; //max no of items to display in a page
