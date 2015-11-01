@@ -1,31 +1,33 @@
 <?php
-$data = json_decode(file_get_contents("php://input"));
-$song = mysql_real_escape_string($data->song);
-$artist = mysql_real_escape_string($data->artist);
-$link = mysql_real_escape_string($data->link);
 
-$con = mysql_connect('localhost', 'root', 'alaba1515');
-mysql_select_db('db_studio_list', $con);
+include('../includes/config.php');
 
-$qry_em = 'select count(*) as cnt from users where email ="' . $uemail . '"';
-$qry_res = mysql_query($qry_em);
-$res = mysql_fetch_assoc($qry_res);
 
-if ($res['cnt'] == 0) {
-    $qry = 'INSERT INTO users (name,pass,email) values ("' . $usrname . '","' . $upswd . '","' . $uemail . '")';
-    $qry_res = mysql_query($qry);
-    if ($qry_res) {
-        $arr = array('msg' => "User Created Successfully!!!", 'error' => '');
-        $jsn = json_encode($arr);
-        print_r($jsn);
-    } else {
-        $arr = array('msg' => "", 'error' => 'Error In inserting record');
-        $jsn = json_encode($arr);
-        print_r($jsn);
-    }
+
+$errors = array();
+$data = array();
+// Getting posted data and decodeing json
+$_POST = json_decode(file_get_contents('php://input'), true);
+
+$query="INSERT INTO songs (songName,artist,link) VALUES ('".$_POST['song']."','".$_POST['artist']."','".$_POST['link']."');";
+$mysqli->set_charset('utf8mb4');
+$result = $mysqli->query($query) or die($mysqli->error.__LINE__);
+
+// checking for blank values.
+if (empty($_POST['song']))
+  $errors['song'] = 'Song is required.';
+
+if (empty($_POST['artist']))
+  $errors['artist'] = 'Artist is required.';
+
+if (empty($_POST['link']))
+  $errors['link'] = 'Link is required.';
+
+if (!empty($errors)) {
+  $data['errors']  = $errors;
 } else {
-    $arr = array('msg' => "", 'error' => 'User Already exists with same email');
-    $jsn = json_encode($arr);
-    print_r($jsn);
+  $data['message'] = 'Form data is going well';
 }
+// response back.
+echo json_encode($data);
 ?>

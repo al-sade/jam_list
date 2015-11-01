@@ -17,22 +17,51 @@ app.controller('customersCrtl', function($scope, $http, $timeout) {
 		$scope.filteredItems = $scope.list.length; //Initially for no filter
 		$scope.totalItems = $scope.list.length;
 	});
-	$scope.addSong = function() {
-		$http.post('post_es.php', {
-			'song': $scope.songName,
-			'artist': $scope.artist,
-			'link': $scope.link
-		}).success(function(data, status, headers, config) {
-			if (data.msg != '') {
-				$scope.msgs.push(data.msg);
-			} else {
-				$scope.errors.push(data.error);
-			}
-		}).error(function(data, status) { // called asynchronously if an error occurs
-			// or server returns response with an error status.
-			$scope.errors.push(status);
-		})
-	};
+    $scope.user = {};
+    // calling our submit function.
+    $scope.submitForm = function() {
+        // Posting data to php file
+        $http({
+            method  : 'POST',
+            url     : 'ajax/postSong.php',
+            data    : $scope.user, //forms user object
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .success(function(data) {
+                if (data.errors) {
+                    // Showing errors.
+                    $scope.errorSong= data.errors.song;
+                    $scope.errorArtist= data.errors.artist;
+                    $scope.errorLink= data.errors.link;
+                } else {
+                    $scope.message = data.message;
+                }
+            });
+        $scope.user = null
+        alert("היידה!!!");
+    };
+    $scope.deleteSong = function($songName, $artist, $link) {
+        // Posting data to php file
+        $http({
+            method  : 'POST',
+            url     : 'ajax/deleteSong.php',
+            data    : $songName, //forms user object
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .success(function(data) {
+
+                if (data.errors) {
+                    // Showing errors.
+                    $scope.errorSong= data.errors.song;
+                    $scope.errorArtist= data.errors.artist;
+                    $scope.errorLink= data.errors.link;
+                } else {
+                    $scope.message = data.message;
+                }
+            });
+        $scope.user = null
+    }
+
 	$scope.setPage = function(pageNo) {
 		$scope.currentPage = pageNo;
 	};
