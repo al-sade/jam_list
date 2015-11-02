@@ -45,7 +45,7 @@ app.controller('customersCrtl', function($scope, $http, $timeout) {
         $http({
             method  : 'POST',
             url     : 'ajax/deleteSong.php',
-            data    : $songName, //forms user object
+            data    : {'song':$songName, 'artist':$artist, 'link':$link}, //forms user object
             headers : {'Content-Type': 'application/x-www-form-urlencoded'}
         })
             .success(function(data) {

@@ -9,3 +9,9 @@ th {
 input {
     text-align: center;
 }
+
+#add-song{
+  text-align: center;
+  border: 1px solid #434373;
+  padding: 10px;
+}

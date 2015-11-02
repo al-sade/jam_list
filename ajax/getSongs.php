@@ -2,7 +2,7 @@
 include('../includes/config.php');
 
 $query="select distinct s.songName, s.artist, s.link from songs s order by s.songName";
-$mysqli->set_charset('utf8mb4');  
+$mysqli->set_charset('utf8mb4');
 $result = $mysqli->query($query) or die($mysqli->error.__LINE__);
 
 $arr = array();
